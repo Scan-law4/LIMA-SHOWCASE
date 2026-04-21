@@ -38,6 +38,6 @@ This is not an open-source framework. It is not installable. It is not seeking c
 
 ## About
 
-Scan is Neven Sirotić, based in Zagreb, Croatia. Most of his career has been in roles that reward multidisciplinary thinking — marketing, operations, product — and LIMA is his first extended project in applied AI systems. He switched to Linux after years away, specifically to build this system; Pop!_OS is not the most conventional distribution for a project like this, which is itself part of the lesson.
+Scan is Neven Sirotić, based in Zagreb, Croatia. Most of his career has been in roles that reward multidisciplinary thinking and LIMA is his first extended project in applied AI systems. He switched to Linux after years away, specifically to build this system; Pop!_OS is not the most conventional distribution for a project like this, which is itself part of the lesson.
 
 Contact: scan@law-4.com, or via [@Scan-law4](https://github.com/Scan-law4) on GitHub. The repository is maintained as a journal; unsolicited collaboration requests should expect slow or no response while active project work is ongoing.
