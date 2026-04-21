@@ -1,4 +1,4 @@
-# LIMA Locally Integrated Multi-Agent 
+# LIMA - Locally Integrated Multi-Agent 
 
 LIMA — Locally Integrated Multi-Agent — is a system of specialized local AI agents running on a single workstation. Each agent has a narrow job, persistent memory on disk, and a library of skills it has written for itself after completing real tasks. Everything runs on consumer hardware with no cloud inference for the agents themselves.
 
