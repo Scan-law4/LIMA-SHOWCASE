@@ -1,6 +1,6 @@
 # LIMA
 
-LIMA is a system of specialized local AI agents running on a single workstation. Each agent has a narrow job, persistent memory on disk, and a library of skills it has written for itself after completing real tasks. Everything runs on consumer hardware with no cloud inference for the agents themselves.
+LIMA — Locally Integrated Multi-Agent — is a system of specialized local AI agents running on a single workstation. Each agent has a narrow job, persistent memory on disk, and a library of skills it has written for itself after completing real tasks. Everything runs on consumer hardware with no cloud inference for the agents themselves.
 
 This repository is a journal of the system — what it is, how it is put together, and what has been learned from running it. It is not a framework you can install. The components it builds on (Ollama, the Hermes Agent, and similar open-source tooling) are named where relevant; their own repositories are the starting point if you want to build something comparable.
 
