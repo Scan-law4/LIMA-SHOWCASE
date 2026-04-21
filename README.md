@@ -1,294 +1,43 @@
-# 🤖 Lima — Local Intelligent Management Assistant
+# LIMA
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Ollama](https://img.shields.io/badge/Ollama-Latest-blue)](https://ollama.com)
-[![Pop!_OS](https://img.shields.io/badge/OS-Pop!_OS%2024.04-green)](https://pop.system76.com)
+LIMA is a system of specialized local AI agents running on a single workstation. Each agent has a narrow job, persistent memory on disk, and a library of skills it has written for itself after completing real tasks. Everything runs on consumer hardware with no cloud inference for the agents themselves.
 
-## What is Lima?
+This repository is a journal of the system — what it is, how it is put together, and what has been learned from running it. It is not a framework you can install. The components it builds on (Ollama, the Hermes Agent, and similar open-source tooling) are named where relevant; their own repositories are the starting point if you want to build something comparable.
 
-**Lima** is a personal AI assistant designed to run entirely on your local machine, combining persistent memory, autonomous skills, and comprehensive capabilities while maintaining complete privacy.
+## Who lives here
 
-> **"I am Lima — Local Intelligent Management Assistant. I always respond in English. I address my owner as Scan."**
+**Pepper** is the development lead for Scan's commercial software projects. She writes code, runs scripts, opens pull requests, maintains repositories, and files procedural knowledge as skills after each verified task. She does not handle personal or biographical work.
 
----
+**Lima** is Scan's personal assistant. She maintains a long-form vault of journals, notes, plans, and project context in Obsidian, and she helps with day-to-day work on the machine itself — for example, taking a message like "install this application and make a launcher for it" sent from a phone and having the program ready when Scan gets home. She is responsible for documenting Scan's own work and life, not for writing code or managing repositories.
 
-## ✨ Features
+**Studio** is in development. Her job will be Scan's public-facing web presence — landing pages, design assets, and integration with local image-generation tooling. She is not yet operational; the profile exists as a plan, not a running process.
 
-### 🧠 Intelligent Hybrid Architecture
-- **Local-first AI** — Qwen3.5, Hermes-4, and other models run offline
-- **Persistent Memory** — 3-tier knowledge organization (diary, biography, library, projects)
-- **Auto-Logging** — Daily context capture at 08:00 CET
-- **Privacy-First** — Zero data exfiltration, explicit cloud permission
+Each agent has a separate profile, separate memory, separate skill library, and separate channel (Telegram bot per agent). They share the same hardware and, at present, the same model weights. Contention is handled by priority rather than parallelism.
 
-### 🤖 48+ Specialized Skills
+## How it works, briefly
 
-| Category | Skills |
-|----------|--------|
-| **Autonomous Agents** | claude-code, codex, hermes-agent, opencode |
-| **Creative** | ascii-art, manim-video, p5js, songwriting |
-| **Data Science** | jupyter-live-kernel, data-science |
-| **DevOps** | webhook-subscriptions, dogfood |
-| **Productivity** | google-workspace, linear, notion |
-| **GitHub** | code-review, github-pr-workflow, issues |
-| **Research** | arxiv, llm-wiki, polymarket |
-| **Media** | gif-search, heartmula, songsee, youtube-content |
-| **Software Dev** | test-driven-development, systematic-debugging |
-| **And more!** | 50+ additional capabilities |
+Each agent is defined by two files on disk: a `SOUL.md` that describes identity and operating discipline, and a `MEMORY.md` that holds world-facts the agent needs across sessions. Both survive restarts. Neither is edited by the agent during normal operation — updates are deliberate and attributable.
 
-### 🎯 Capabilities
-- Task management and prioritization
-- Code review and analysis
-- Document creation (Markdown, HTML, PDF)
-- Research and literature reviews
-- Media generation and editing
-- Web automation and scraping
-- Database management (Linear, Notion, Google Workspace)
-- System monitoring and debugging
+Skills are directories on disk, each containing a `SKILL.md` with instructions for a specific verified procedure. Agents write their own skills after completing work that might be repeated. A skill that describes a procedure the agent has not actually executed is not a valid skill.
 
-## 📐 Architecture
+When an agent encounters work beyond its reliable capability — synthesis across many files, novel architectural judgment, debugging a failure mode it does not recognize — it stops and flags this. Scan then consults a frontier model (Claude Opus, in a browser) as an advisor, and returns concrete artifacts to the agent: scripts to run, skills to install, step-by-step instructions to follow. The agent does not make this call itself. The human is the bridge.
 
-### Local-First Design
-```
-┌─────────────────────────────────┐
-│   Pop!_OS 24.04 (RTX 3090, 128GB)│
-│                                 │
-│  ┌───────────────────────────┐  │
-│  │   Ollama (llama.cpp)      │  │
-│  │   • glm47-flash:q4km      │  │
-│  │   • Hermes-4 (Q6/Q8)      │  │
-│  │   • qwen3.5:9b            │  │
-│  │   • carnice-moe:q4km      │  │
-│  └───────────────────────────┘  │
-│                                 │
-│  ┌───────────────────────────┐  │
-│  │   3-Tier Knowledge System │  │
-│  │   ~/LIMA/                 │  │
-│  │   ├─ diary/              │  │
-│  │   ├─ biography/          │  │
-│  │   ├─ library/            │  │
-│  │   ├─ projects/           │  │
-│  │   └─ todo/               │  │
-│  └───────────────────────────┘  │
-└─────────────────────────────────┘
-```
+## What this repository contains
 
-## 🚀 Quick Start
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — how the system is put together, and the decisions that shaped it
+- [AGENTS.md](./AGENTS.md) — longer-form descriptions of each agent's role and discipline
+- [LESSONS.md](./LESSONS.md) — what has worked, what has not, and what was surprising
 
-### Prerequisites
-- Linux-based system (Pop!_OS recommended)
-- 16GB+ RAM (32GB+ recommended)
-- 50GB+ free disk space
-- NVIDIA GPU with 8GB+ VRAM (CUDA acceleration)
+## Current status
 
-### Installation
+Lima's current profile came together on April 7, 2026, after earlier iterations on commercial chat platforms (ChatGPT, DeepSeek, SuperGrok) and three rejected local architectures (direct Ollama with a custom web UI, OpenClaw, Luna). Pepper was set up on April 17, initially running on Claude Opus via OAuth, and pivoted to local-first GLM on April 20 after the cloud-first architecture proved operationally unviable. Studio is in design as of late April 2026. Active development continues. No release schedule, no feature roadmap.
 
-```bash
-# Install Ollama
-curl -fsSL https://ollama.com/install.sh | sh
+## What this repository is not
 
-# Pull LIMA models
-ollama pull glm47-flash:q4km
-ollama pull Hermes-4:Q8_0
-ollama pull qwen3.5:9b
+This is not an open-source framework. It is not installable. It is not seeking contributors. Scan reads issues filed here but makes no commitment to respond. If you want to build something similar, the right starting point is the underlying tools — Ollama for local inference, the Hermes Agent for the agent runtime, your choice of a 9B-to-30B local model — and then whatever discipline you choose to impose on top.
 
-# Start LIMA
-# LIMA will auto-load skills based on task context
-```
+## About
 
-### First Steps
+Scan is Neven Sirotić, based in Zagreb, Croatia. Most of his career has been in roles that reward multidisciplinary thinking — marketing, operations, product — and LIMA is his first extended project in applied AI systems. He switched to Linux after years away, specifically to build this system; Pop!_OS is not the most conventional distribution for a project like this, which is itself part of the lesson.
 
-1. **Verify installation**
-   ```bash
-   ollama list
-   ```
-
-2. **Set up knowledge base**
-   ```bash
-   # Create LIMA directory structure
-   mkdir -p ~/LIMA/{diary/{activities,archive},biography,library/{web-search,document-study,config-reference,backup},projects/{cicija,openshophr,subscriptions},todo}
-   # Initialize index
-   cat > ~/LIMA/index.md << 'EOF'
-   # Lima Knowledge Repository
-
-   ## Daily Diary
-   - [2026-04-13](diary/daily/2026-04-13.md)
-
-   ## Projects
-   - [Lima Core](projects/GITHUB-DOCUMENTATION.md)
-
-   ## System Docs
-   [Hardware Specs](library/hardware.md)
-   EOF
-   ```
-
-3. **Start using Lima**
-   - Simply interact with Lima in Telegram, CLI, or terminal
-   - LIMA loads appropriate skills automatically
-   - Ask anything — from coding to research
-
-## 📁 Project Structure
-
-```
-~/LIMA/
-├── index.md                    # Master index
-├── diary/
-│   ├── daily-journal.md         # Daily logs
-│   ├── weekly-summary.md        # Weekly summaries
-│   └── activities/              # Detailed logs
-├── biography/
-│   └── chapter_01_introduction.md
-├── library/
-│   ├── index.md                 # Library index
-│   ├── web-search/              # Research findings
-│   ├── document-study/          # Document specs
-│   ├── config-reference/        # System configs
-│   └── backup/                  # Backups
-├── projects/
-│   ├── cicija/                  # Grocery savings app
-│   ├── openshophr/              # HR management
-│   ├── subscriptions/           # Asset tracking
-│   └── GITHUB-DOCUMENTATION.md  # This file
-└── todo/                        # Task lists
-```
-
-## 🧰 Using the Skills
-
-LIMA automatically loads relevant skills when needed. You can also load skills explicitly:
-
-```bash
-# View skills
-skills_list
-
-# Load a skill
-skill_view(lima-knowledge-management)
-
-# Use skill functions
-# Skills provide specialized tools and workflows
-```
-
-**Example:** When you ask to "research a topic," LIMA automatically loads `arxiv`, `llm-wiki`, `blogwatcher`, and other research-related skills.
-
-## 🎓 Workflow Examples
-
-### Example 1: Daily Logging
-```
-You: "Log today's activities"
-→ LIMA uses lima-knowledge-management skill
-→ Creates diary entry in ~/LIMA/diary/daily-journal.md
-→ Updates biography
-→ Updates index
-→ Stores documentation in library/
-```
-
-### Example 2: Code Review
-```
-You: "Review this PR"
-→ LIMA loads github-code-review skill
-→ Fetches code diffs
-→ Analyzes code quality
-→ Creates inline comments
-→ Mentions security issues
-→ Suggests improvements
-```
-
-### Example 3: Research Paper
-```
-You: "Write an NeurIPS paper on transformers"
-→ LIMA loads research/ml-paper-writing skill
-→ Identifies requirements
-→ Structure: Abstract → Introduction → Methods → Experiments
-→ Cites relevant papers
-→ Writes in LaTeX format
-→ Checks for consistency
-```
-
-## 🔒 Privacy & Security
-
-- **Zero Data Exfiltration** — All processing stays local
-- **Private Models** — Qwen3.5, Hermes-4, etc. never leave your machine
-- **Explicit Permission** — Never sends data to cloud without asking
-- **Customizable** — You control what happens to your data
-- **Encrypted** — Knowledge stored in plain text (customize encryption as needed)
-
-## 📊 Hardware Specs
-
-| Component | Specification |
-|-----------|---------------|
-| OS | Pop!_OS 24.04 LTS |
-| GPU | NVIDIA RTX 3090 (24GB VRAM) |
-| RAM | 128GB DDR4 |
-| Storage | 907GB NVMe SSD |
-| Network | Intel Wi-Fi 6 AX200 / Realtek 2.5GbE |
-| Mobile | Xiaomi 14T, Redmi Note 9 Pro |
-
-## 🧪 Models Available
-
-LIMA loads multiple local models:
-
-| Model | Size | Purpose |
-|-------|------|---------|
-| glm47-flash:q4km | 18GB | General purpose |
-| Hermes-4 (Q6_Q/Q8_0) | 12-15GB | Complex reasoning |
-| qwen3.5:9b | 6.6GB | Coding & logic |
-| carnice-moe:q4km | 21GB | Specialized tasks |
-| qwen2.5-coder:7b-instruct | 4.7GB | Code generation |
-| glm-4.7-flash | 19GB | Fast inference |
-| nomic-embed-text | 274MB | Embeddings |
-| hermes3:8b-llama3.1-q8_0 | 8.5GB | LLaMA-3.1 fine-tune |
-
-> **Note:** Models are downloaded once with `ollama pull`. No external API calls required.
-
-## 🏃 Active Projects
-
-1. **[Lima Core](./GITHUB-DOCUMENTATION.md)** — Continuous development and expansion
-2. **[Cicija](./cicija/README.md)** — Grocery savings mobile app (Business plan complete)
-3. **[OpenShopHR](./openshophr/README.md)** — HR management solution
-4. **[Subscription Manager](./subscriptions/README.md)** — Audit and asset tracking
-
-## 🗺️ Roadmap
-
-### Short-term (Q2 2026)
-- [ ] Complete Cicija backend implementation
-- [ ] Launch OpenShopHR pilot
-- [ ] Expand skill documentation
-- [ ] Add support for additional Linux distributions
-
-### Medium-term (Q3-Q4 2026)
-- [ ] Cross-device synchronization
-- [ ] Mobile companion apps
-- [ ] Hardware platform support (Mac, Windows)
-- [ ] Enhanced privacy features (end-to-end encryption)
-
-### Long-term (2027+)
-- [ ] Multi-agent orchestration
-- [ ] Learning algorithms
-- [ ] Model fine-tuning capabilities
-- [ ] Community extensions
-
-## 🤝 Contributing
-
-Lima is a personal project. For questions or feedback:
-- GitHub: `github.com/Scan-law4`
-- Email: (Contact via GitHub account)
-
-### Want to add a skill?
-
-1. Create a skill directory: `~/.hermes/profiles/lima/skills/YOUR-SKILL/`
-2. Create `SKILL.md` with YAML frontmatter
-3. Write the skill documentation
-4. Test thoroughly
-5. Commit to your GitHub repository
-
-## 📄 License
-
-This project is maintained by Scan (Neven Sirotić).
-
----
-
-**⭐ Star our GitHub repository!**
-
-[![GitHub stars](https://img.shields.io/github/stars/Scan-law4/LIMA.svg?style=social)](https://github.com/Scan-law4/LIMA)
-
-**Last Updated:** April 13, 2026  
-**Lima Version:** 2.0  
-**Made with ❤️ on Pop!_OS**
+Contact: scan@law-4.com, or via [@Scan-law4](https://github.com/Scan-law4) on GitHub. The repository is maintained as a journal; unsolicited collaboration requests should expect slow or no response while active project work is ongoing.
