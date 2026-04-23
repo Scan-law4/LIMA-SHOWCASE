@@ -1,6 +1,8 @@
 # Architecture
 
-This document describes how LIMA is built today and the reasoning behind the current shape. It is not a tutorial. It is a record of decisions made, some of which were made after earlier decisions turned out to be wrong.
+This document describes how LIMA is built today and the reasoning behind the current shape.
+
+![LIMA system architecture](images/Lima-Showcase_Architecture.jpeg)
 
 ## Hardware
 

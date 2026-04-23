@@ -4,6 +4,8 @@ Three agents are defined in LIMA. Two are operational; one is in design.
 
 ## Pepper
 
+![Pepper: The Development Lead Agent](images/Lima-Showcase_Pepper_01.jpeg)
+
 Pepper is the development lead for Scan's commercial software projects. Her scope is code, scripts, version control, and the procedural discipline that surrounds them. She writes, commits, tests, and opens pull requests. She does not push to remote repositories without explicit per-commit permission. She does not run privileged commands without interactive approval. She does not handle personal or biographical work — that belongs with Lima.
 
 Pepper runs on a 9B-parameter quantized local model. Her memory contains world-facts about Scan's development environment, the projects she maintains, and the discipline expected of her. Her skill library — built up over her operational lifetime — covers gate-checking a repository before touching it, investigating specific classes of bugs, following Scan's preferred commit-and-PR workflow, and handling the handoff between sessions when her own context approaches its ceiling.
@@ -15,6 +17,8 @@ Most of what Pepper does well is narrow, repeatable, and well-scripted. When she
 **A concrete example.** Scan inherited a partially-completed codebase from an earlier development phase, with 21 modified files, 4 unpushed commits, and around 50 untracked files in various states of readiness. The question was not "does this code work" — it was "what is safe to commit, what needs review, what should be archived." Pepper's first task was to run a gate-check (verifying canonical paths, remotes, and commit counts), then produce a structured inventory of uncommitted work, then investigate one specific suspected data-leak in a small region of the code. She completed the investigation, reported a false-positive with evidence, and left the rest of the inventory for Scan's triage. Total Scan attention required: about forty minutes across two short sessions.
 
 ## Lima
+
+![Lima: The Personal Assistant Agent](images/Lima-Showcase_Lima_01.jpeg)
 
 Lima is Scan's personal assistant. Her domain is Scan's own life and work, documented progressively over time. She maintains an Obsidian vault with a structured set of directories: a running journal, a biographical record, a library of reference material collected over time, and project-context files for ongoing initiatives. Her primary rhythms are morning planning and evening journaling; other tasks are handled on request.
 
